@@ -19,8 +19,8 @@
         <div v-for="(city, index) in cities"
              class="city-block">
             <div class="city-block__name">City name: {{ city.name }}</div>
-            <div class="city-block__temp">City temp: {{ city.temp }}</div>
-            <div class="city-block__humidity">City humidity: {{ city.humidity }}</div>
+            <div class="city-block__temp">Temperature in the city: {{ city.temp }} °C</div>
+            <div class="city-block__humidity">Humidity in the city: {{ city.humidity }}</div>
             <span class="close" @click="removeCity(city, index)"></span>
         </div>
     </div>
@@ -52,11 +52,12 @@
                 let self = this
                 client.get(request).then((response) => {
                     this.disabled = false
+                    this.city = null
                     let currentCity = {
                         id: response.data.id,
                         name: response.data.name,
                         humidity: response.data.main.humidity,
-                        temp: response.data.main.temp
+                        temp: response.data.main.temp - 273.15
                     }
 
                     let lskey = LS_PREFIX + currentCity.id;
@@ -95,7 +96,7 @@
                             id: response.data.id,
                             name: response.data.name,
                             humidity: response.data.main.humidity,
-                            temp: response.data.main.temp
+                            temp: response.data.main.temp - 273.15
                         }
 
                         let lskey = LS_PREFIX + currentCity.id;
@@ -121,8 +122,18 @@
             },
 
             removeCity: function(city, index) {
-                localStorage.removeItem(LS_PREFIX + city.id)
-                this.cities.splice(index, 1)
+                this.$swal({
+                    title: 'Are you sure?',
+                    showCancelButton: true
+                })
+                .then((data) => {
+                    if (data.value) {
+                        localStorage.removeItem(LS_PREFIX + city.id)
+                        this.cities.splice(index, 1)
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                })
             }
         },
 
