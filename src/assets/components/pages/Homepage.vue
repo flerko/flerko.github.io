@@ -57,7 +57,7 @@
                         id: response.data.id,
                         name: response.data.name,
                         humidity: response.data.main.humidity,
-                        temp: response.data.main.temp - 273.15
+                        temp: (response.data.main.temp - 273.15).toFixed(1)
                     }
 
                     let lskey = LS_PREFIX + currentCity.id;
@@ -96,7 +96,7 @@
                             id: response.data.id,
                             name: response.data.name,
                             humidity: response.data.main.humidity,
-                            temp: response.data.main.temp - 273.15
+                            temp: (response.data.main.temp - 273.15).toFixed(1)
                         }
 
                         let lskey = LS_PREFIX + currentCity.id;
