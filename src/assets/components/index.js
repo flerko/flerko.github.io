@@ -1,10 +1,7 @@
 import Vue from 'vue'
 
-import Layout from './layout/Layout.vue'
-import Homepage from './pages/Homepage.vue'
-
-Vue.component('layout', Layout);
-Vue.component('homepage', Homepage);
+const Layout    =  Vue.component('layout',    () => import('./layout/Layout.vue'))
+const Homepage  =  Vue.component('homepage',  () => import('./pages/Homepage.vue'))
 
 export {
   Layout,
